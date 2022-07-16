@@ -24,6 +24,8 @@ public class Order implements Serializable {
   private long id;
   private Date placedAt;
 
+  @ManyToOne
+  private User user;
   //end::allButValidation[]
   @NotBlank(message="Name is required")
   //tag::allButValidation[]
