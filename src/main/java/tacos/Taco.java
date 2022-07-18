@@ -29,7 +29,6 @@ public class Taco {
   // end::allButValidation[]
   @ManyToMany(targetEntity = Ingredient.class)
   @Size(min=1, message="You must choose at least 1 ingredient")
-  // tag::allButValidation[]
   private List<Ingredient> ingredients;
   @PrePersist
   void createdAt(){

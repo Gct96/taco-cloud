@@ -22,10 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
+
 @Controller
 @RequestMapping("/design")
 @SessionAttributes("order")
+@Slf4j
 public class DesignTacoController {
 	private final IngredientRepository ingredientRepo;
 	private TacoRepository tacoRepo;
@@ -69,7 +70,7 @@ public class DesignTacoController {
 	}
 
 	@ModelAttribute(name="design")
-	public Taco taco(){
+	public Taco design(){
 		return new Taco();
 	}
 

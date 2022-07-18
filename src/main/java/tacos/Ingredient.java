@@ -14,7 +14,7 @@ import javax.persistence.Id;
  */
 @Data
 @RequiredArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PRIVATE,force = true)
+@NoArgsConstructor(access = AccessLevel.PUBLIC,force = true)
 @Entity
 public class Ingredient {
     @Id

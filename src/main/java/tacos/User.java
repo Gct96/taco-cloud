@@ -26,7 +26,7 @@ import java.util.Collection;
 public class User implements UserDetails {
     private static final long serialVersionUID=1l;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private final String username;
@@ -36,7 +36,7 @@ public class User implements UserDetails {
     private final String city;
     private final String state;
     private final String zip;
-    private final String phoneNumber;
+    private final String phone;
     @Override
     //返回用户被授予的权限的一个集合
     public Collection<? extends GrantedAuthority> getAuthorities() {
