@@ -17,8 +17,9 @@ import java.util.List;
 @Entity
 public class Taco {
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
+  @Column(name="create_at")
   private Date createdAt;
 
   // end::allButValidation[]
@@ -29,6 +30,7 @@ public class Taco {
   // end::allButValidation[]
   @ManyToMany(targetEntity = Ingredient.class)
   @Size(min=1, message="You must choose at least 1 ingredient")
+  @JoinTable(name="taco_ingredients",joinColumns = @JoinColumn(name="taco"),inverseJoinColumns = @JoinColumn(name="ingredient"))
   private List<Ingredient> ingredients;
   @PrePersist
   void createdAt(){

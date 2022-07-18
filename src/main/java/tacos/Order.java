@@ -20,8 +20,9 @@ import java.util.List;
 public class Order implements Serializable {
   private static final long serialVersionUID=1l;
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private long id;
+  @Column(name="place_at")
   private Date placedAt;
 
   @ManyToOne
@@ -54,19 +55,24 @@ public class Order implements Serializable {
 
   @CreditCardNumber(message="Not a valid credit card number")
   //tag::allButValidation[]
+  @Column(name="cc_number")
   private String ccNumber;
   //end::allButValidation[]
 
   @Pattern(regexp="^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$",
            message="Must be formatted MM/YY")
   //tag::allButValidation[]
+  @Column(name="cc_expiration")
   private String ccExpiration;
   //end::allButValidation[]
 
   @Digits(integer=3, fraction=0, message="Invalid CVV")
   //tag::allButValidation[]
+  @Column(name="cc_cvv")
   private String ccCVV;
   @ManyToMany(targetEntity = Taco.class)
+  //修正：增加显式声明连表查询字段的注解
+  @JoinTable(name="taco_order_tacos",joinColumns = @JoinColumn(name="order_num"),inverseJoinColumns = @JoinColumn(name="taco"))
   private List<Taco> tacos=new ArrayList();
 
   public void addDesign(Taco design){
