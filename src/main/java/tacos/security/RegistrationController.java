@@ -22,12 +22,12 @@ public class RegistrationController {
         this.passwordEncoder=passwordEncoder;
     }
 
-    @GetMapping
+    @GetMapping//处理来自login.html的get请求
     public String registerForm(){
         return "registration";
     }
 
-    @PostMapping
+    @PostMapping  //处理来自registration.html的post请求
     public String processRegistration(RegistrationForm form){
         userRepo.save(form.toUser(passwordEncoder));
         return "redirect:/login";

@@ -1,8 +1,11 @@
 // tag::baseClass[]
 package tacos.web;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
@@ -11,6 +14,7 @@ import tacos.User;
 import tacos.data.OrderRepository;
 
 import javax.validation.Valid;
+
 
 //end::baseClass[]
 //tag::baseClass[]
@@ -22,9 +26,11 @@ import javax.validation.Valid;
 public class OrderController {
 
   private OrderRepository orderRepo;
+  private OrderProps props;
 
-  public OrderController(OrderRepository orderRepo){
+  public OrderController(OrderRepository orderRepo, OrderProps props){
     this.orderRepo=orderRepo;
+    this.props=props;
   }
 
   @GetMapping("/current")
@@ -50,9 +56,6 @@ public class OrderController {
       order.setZip(user.getZip());
     }
 
-    if(order.getStreet()==null){
-      order.setStreet(user.getStreet());
-    }
     return "orderForm";
   }
 
@@ -68,11 +71,16 @@ public class OrderController {
     order.setUser(user);
     orderRepo.save(order);
     sessionStatus.setComplete();
-    return "redirect:/design";
+    return "redirect:/orders/past";
   }
   //end::handlePostWithValidation[]
 
-  //tag::baseClass[]
+  @GetMapping("/past")
+  public String ordersForUser(@AuthenticationPrincipal User user, Model model){
+    Pageable pageable= PageRequest.of(0,props.getPageSize());
+    model.addAttribute("Orders",orderRepo.findByUserOrderByPlacedAtDesc(user,pageable));
+    return "orderList";
+  }
   
 }
 //end::baseClass[]
